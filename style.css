@@ -1,0 +1,114 @@
+body{
+  margin:0;
+  font-family: Arial;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  text-align:center;
+  color:#fff;
+}
+
+.container{
+  padding:20px;
+}
+
+.title{
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.status{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  font-size:18px;
+}
+
+.timer{
+  font-size:20px;
+  margin:10px;
+  font-weight:bold;
+}
+
+#letter{
+  font-size:90px;
+  margin:10px;
+  text-shadow:2px 2px 5px black;
+}
+
+.options{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.option{
+  background:white;
+  color:black;
+  width:140px;
+  border-radius:15px;
+  padding:10px;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 5px 10px rgba(0,0,0,0.2);
+}
+
+.option:hover{
+  transform:scale(1.05);
+}
+
+.option img{
+  width:100px;
+  height:100px;
+  object-fit:contain;
+}
+
+.correct{
+  background:#b6ffb6 !important;
+}
+
+.wrong{
+  background:#ff6b6b !important;
+}
+
+/* 🎯 Next button */
+button{
+  margin-top:18px;
+  padding:14px 30px;
+  border:none;
+  border-radius:20px;
+  font-size:18px;
+  font-weight:bold;
+  color:white;
+  background: linear-gradient(45deg, #ff6a00, #ee0979);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  transform:scale(1.08);
+}
+
+button:active{
+  transform:scale(0.95);
+}
+
+/* 🎉 animation */
+#celebrate{
+  position:absolute;
+  font-size:80px;
+  display:none;
+  animation: pop 0.8s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(0);}
+  50%{transform:scale(1.5);}
+  100%{transform:scale(0);}
+}
+
+/* 📱 mobile */
+@media(max-width:600px){
+  #letter{font-size:70px;}
+  .option{width:120px;}
+}

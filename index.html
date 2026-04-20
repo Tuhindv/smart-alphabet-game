@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids A-Z Game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container" id="game">
+
+  <h1 class="title">🎮 Kids A-Z Game</h1>
+
+  <div class="status">
+    <div>⭐ Score: <b id="score">0</b></div>
+    <div>❌ Wrong: <b id="wrong">0</b>/3</div>
+  </div>
+
+  <div class="timer">⏳ Time Left: <b id="time">25</b>s</div>
+
+  <div id="letter">A</div>
+
+  <div class="options">
+    <div class="option" onclick="checkAnswer(this)">
+      <img><p></p>
+    </div>
+
+    <div class="option" onclick="checkAnswer(this)">
+      <img><p></p>
+    </div>
+
+    <div class="option" onclick="checkAnswer(this)">
+      <img><p></p>
+    </div>
+  </div>
+
+  <button onclick="nextQuestion()">Next ➡️</button>
+
+</div>
+
+<!-- 🎉 animation -->
+<div id="celebrate">🎉</div>
+
+<script src="script.js"></script>
+</body>
+</html>
