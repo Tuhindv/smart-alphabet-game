@@ -1,48 +1,73 @@
 const pool = [
-  {name:"Apple", img:"images/apple.jpg"},
-  {name:"Ball", img:"images/ball.png"},
-  {name:"Cat", img:"images/cat.png"},
-  {name:"Dog", img:"images/dog.png"},
-  {name:"Elephant", img:"images/elephant.png"},
-  {name:"Fish", img:"images/fish.png"},
-  {name:"Goat", img:"images/goat.png"},
-  {name:"Hat", img:"images/hat.png"},
-  {name:"Ice cream", img:"images/icecream.png"},
-  {name:"Jug", img:"images/jug.png"},
-  {name:"Kite", img:"images/kite.png"},
-  {name:"Lion", img:"images/lion.png"},
-  {name:"Mango", img:"images/mango.png"},
-  {name:"Nest", img:"images/nest.png"},
-  {name:"Orange", img:"images/orange.jpg"},
-  {name:"Parrot", img:"images/parrot.jpg"},
-  {name:"Queen", img:"images/queen.png"},
-  {name:"Rabbit", img:"images/rabbit.jpg"},
-  {name:"Sun", img:"images/sun.png"},
-  {name:"Tiger", img:"images/tiger.png"},
-  {name:"Umbrella", img:"images/umbrella.jpg"},
-  {name:"Van", img:"images/van.png"},
-  {name:"Watch", img:"images/watch.png"},
-  {name:"Xylophone", img:"images/xylophone.png"},
-  {name:"Yak", img:"images/yak.jpg"},
-  {name:"Zebra", img:"images/zebra.png"}
+  {name:"apple", img:"images/apple.jpg"},
+  {name:"ball", img:"images/ball.png"},
+  {name:"cat", img:"images/cat.png"},
+  {name:"dog", img:"images/dog.png"},
+  {name:"elephant", img:"images/elephant.png"},
+  {name:"fish", img:"images/fish.png"},
+  {name:"goat", img:"images/goat.png"},
+  {name:"hat", img:"images/hat.png"},
+  {name:"ice cream", img:"images/icecream.png"},
+  {name:"jug", img:"images/jug.png"},
+  {name:"kite", img:"images/kite.png"},
+  {name:"lion", img:"images/lion.png"},
+  {name:"mango", img:"images/mango.png"},
+  {name:"nest", img:"images/nest.png"},
+  {name:"orange", img:"images/orange.jpg"},
+  {name:"parrot", img:"images/parrot.jpg"},
+  {name:"queen", img:"images/queen.png"},
+  {name:"rabbit", img:"images/rabbit.jpg"},
+  {name:"sun", img:"images/sun.png"},
+  {name:"tiger", img:"images/tiger.png"},
+  {name:"umbrella", img:"images/umbrella.jpg"},
+  {name:"van", img:"images/van.png"},
+  {name:"watch", img:"images/watch.png"},
+  {name:"xylophone", img:"images/xylophone.png"},
+  {name:"yak", img:"images/yak.jpg"},
+  {name:"zebra", img:"images/zebra.png"}
 ];
 
-
 let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
 let current = 0;
+
 let score = 0;
 let wrong = 0;
 let time = 25;
 let timer;
 
-function shuffle(a){
-  for(let i=a.length-1;i>0;i--){
-    let j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
+let correctItem = null; // ⭐ GLOBAL FIX
+
+/* =======================
+   SOUND (LETTER SOUND)
+======================= */
+function playLetterSound(letter){
+  try{
+    let audio = new Audio(`sounds/${letter.toUpperCase()}.mp3`);
+    audio.currentTime = 0;
+    audio.play();
+  }catch(e){
+    console.log(e);
   }
 }
 
+/* =======================
+   SPEAK A FOR APPLE
+======================= */
+function speakAFor(word){
+  let letter = word[0].toUpperCase();
+  let text = `${letter} for ${word}`;
+
+  let speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "en-US";
+  speech.rate = 0.9;
+  speech.pitch = 1;
+
+  speechSynthesis.speak(speech);
+}
+
+/* =======================
+   CELEBRATION
+======================= */
 function showCelebrate(el){
   let rect = el.getBoundingClientRect();
   let c = document.getElementById("celebrate");
@@ -54,6 +79,9 @@ function showCelebrate(el){
   setTimeout(()=>c.style.display="none",800);
 }
 
+/* =======================
+   TIMER
+======================= */
 function startTimer(){
   clearInterval(timer);
   time = 25;
@@ -69,6 +97,9 @@ function startTimer(){
   },1000);
 }
 
+/* =======================
+   GAME OVER
+======================= */
 function gameOver(){
   document.getElementById("game").innerHTML = `
     <h1>💀 Game Over</h1>
@@ -77,6 +108,9 @@ function gameOver(){
   `;
 }
 
+/* =======================
+   LOAD QUESTION (A-Z ORDER)
+======================= */
 function loadQuestion(){
 
   if(wrong >= 3){
@@ -87,16 +121,29 @@ function loadQuestion(){
   let letter = letters[current];
   document.getElementById("letter").innerText = letter;
 
-  let correctItem = pool.find(x => x.name[0].toUpperCase() === letter);
-  if(!correctItem){
-    correctItem = pool[Math.floor(Math.random()*pool.length)];
-  }
+  playLetterSound(letter);
+
+  let sameLetterItems = pool.filter(
+    x => x.name[0].toUpperCase() === letter
+  );
+
+  correctItem = sameLetterItems.length
+    ? sameLetterItems[Math.floor(Math.random()*sameLetterItems.length)]
+    : pool[Math.floor(Math.random()*pool.length)];
 
   let wrongPool = pool.filter(x => x.name !== correctItem.name);
-  shuffle(wrongPool);
 
-  let options = [correctItem, wrongPool[0], wrongPool[1]];
-  shuffle(options);
+  let options = [
+    correctItem,
+    wrongPool[Math.floor(Math.random()*wrongPool.length)],
+    wrongPool[Math.floor(Math.random()*wrongPool.length)]
+  ];
+
+  // shuffle
+  for(let i=options.length-1;i>0;i--){
+    let j=Math.floor(Math.random()*(i+1));
+    [options[i],options[j]]=[options[j],options[i]];
+  }
 
   let correctIndex = options.findIndex(o => o.name === correctItem.name);
 
@@ -111,12 +158,21 @@ function loadQuestion(){
   startTimer();
 }
 
+/* =======================
+   CHECK ANSWER
+======================= */
 function checkAnswer(el){
 
   if(el.dataset.correct === "true"){
     el.classList.add("correct");
     score++;
     showCelebrate(el);
+
+    // 🔊 A for Apple voice
+    speakAFor(correctItem.name);
+
+
+
   }else{
     el.classList.add("wrong");
     wrong++;
@@ -126,16 +182,20 @@ function checkAnswer(el){
   document.getElementById("wrong").innerText = wrong;
 }
 
+/* =======================
+   NEXT QUESTION
+======================= */
 function nextQuestion(){
   current++;
 
   if(current >= letters.length){
-    shuffle(letters);
     current = 0;
   }
 
   loadQuestion();
 }
 
-shuffle(letters);
+/* =======================
+   START GAME
+======================= */
 loadQuestion();

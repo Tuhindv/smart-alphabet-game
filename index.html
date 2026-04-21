@@ -10,28 +10,37 @@
 
 <div class="container" id="game">
 
-  <h1 class="title">🎮 Kids A-Z Game</h1>
+  <h1>🎮 Kids A-Z Game</h1>
 
   <div class="status">
-    <div>⭐ Score: <b id="score">0</b></div>
-    <div>❌ Wrong: <b id="wrong">0</b>/3</div>
+    ⭐ Score: <b id="score">0</b> |
+    ❌ Wrong: <b id="wrong">0</b>/3
   </div>
 
-  <div class="timer">⏳ Time Left: <b id="time">25</b>s</div>
+  <div class="timer">
+    ⏳ Time Left: <b id="time">25</b>s
+  </div>
 
+  <!-- Letter -->
   <div id="letter">A</div>
 
+  <!-- 🔊 Sound Button -->
+  <button onclick="playLetterSound(letters[current])" class="sound-btn">
+    🔊 Play Sound
+  </button>
+
+  <!-- Options -->
   <div class="options">
     <div class="option" onclick="checkAnswer(this)">
-      <img><p></p>
+      <img src=""><p></p>
     </div>
 
     <div class="option" onclick="checkAnswer(this)">
-      <img><p></p>
+      <img src=""><p></p>
     </div>
 
     <div class="option" onclick="checkAnswer(this)">
-      <img><p></p>
+      <img src=""><p></p>
     </div>
   </div>
 
@@ -39,7 +48,6 @@
 
 </div>
 
-<!-- 🎉 animation -->
 <div id="celebrate">🎉</div>
 
 <script src="script.js"></script>

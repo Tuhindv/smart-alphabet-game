@@ -4,64 +4,93 @@ body{
   background: linear-gradient(135deg,#ff9a9e,#fad0c4);
   text-align:center;
   color:#fff;
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* container */
 .container{
-  padding:20px;
+  padding:15px;
+  max-width:600px;
+  margin:auto;
 }
 
+/* title */
 .title{
-  font-size:28px;
+  font-size:26px;
   margin-bottom:10px;
 }
 
+/* status bar */
 .status{
   display:flex;
   justify-content:center;
-  gap:20px;
-  font-size:18px;
+  gap:15px;
+  font-size:16px;
+  flex-wrap:wrap;
 }
 
+/* timer */
 .timer{
-  font-size:20px;
+  font-size:18px;
   margin:10px;
   font-weight:bold;
 }
 
+/* big letter */
 #letter{
-  font-size:90px;
+  font-size:85px;
   margin:10px;
   text-shadow:2px 2px 5px black;
 }
 
+/* options box */
 .options{
   display:flex;
   justify-content:center;
-  gap:15px;
+  gap:10px;
   flex-wrap:wrap;
+  margin-top:10px;
 }
 
+/* single option */
 .option{
   background:white;
   color:black;
-  width:140px;
-  border-radius:15px;
-  padding:10px;
+  width:30%;
+  min-width:140px;
+  border-radius:18px;
+  padding:12px;
   cursor:pointer;
-  transition:0.3s;
-  box-shadow:0 5px 10px rgba(0,0,0,0.2);
+  transition:0.2s;
+  box-shadow:0 6px 14px rgba(0,0,0,0.25);
+  user-select:none;
 }
 
+/* hover effect (desktop) */
 .option:hover{
   transform:scale(1.05);
 }
 
+/* mobile touch effect */
+.option:active{
+  transform:scale(0.97);
+}
+
+/* image BIG for kids */
 .option img{
-  width:100px;
-  height:100px;
+  width:130px;
+  height:130px;
   object-fit:contain;
 }
 
+/* option text */
+.option p{
+  margin:5px 0 0 0;
+  font-weight:bold;
+  font-size:16px;
+}
+
+/* correct/wrong */
 .correct{
   background:#b6ffb6 !important;
 }
@@ -70,45 +99,84 @@ body{
   background:#ff6b6b !important;
 }
 
-/* 🎯 Next button */
+/* buttons */
 button{
-  margin-top:18px;
-  padding:14px 30px;
+  margin-top:12px;
+  padding:12px 25px;
   border:none;
-  border-radius:20px;
-  font-size:18px;
+  border-radius:18px;
+  font-size:16px;
   font-weight:bold;
   color:white;
   background: linear-gradient(45deg, #ff6a00, #ee0979);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
   cursor:pointer;
   transition:0.2s;
 }
 
+/* button hover */
 button:hover{
-  transform:scale(1.08);
+  transform:scale(1.05);
 }
 
 button:active{
   transform:scale(0.95);
 }
 
-/* 🎉 animation */
+/* sound button */
+.sound-btn{
+  margin:10px;
+  padding:12px 20px;
+  border:none;
+  border-radius:20px;
+  font-size:16px;
+  font-weight:bold;
+  color:white;
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  cursor:pointer;
+}
+
+/* celebration */
 #celebrate{
   position:absolute;
-  font-size:80px;
+  font-size:60px;
   display:none;
   animation: pop 0.8s ease;
 }
 
+/* animation */
 @keyframes pop{
   0%{transform:scale(0);}
   50%{transform:scale(1.5);}
   100%{transform:scale(0);}
 }
 
-/* 📱 mobile */
+/* 📱 mobile responsive */
 @media(max-width:600px){
-  #letter{font-size:70px;}
-  .option{width:120px;}
+
+  #letter{
+    font-size:70px;
+  }
+
+  .option{
+    width:45%;
+    min-width:140px;
+    padding:10px;
+  }
+
+  .option img{
+    width:120px;
+    height:120px;
+  }
+
+  button,
+  .sound-btn{
+    width:90%;
+    font-size:16px;
+  }
+
+  .status{
+    font-size:14px;
+  }
 }
