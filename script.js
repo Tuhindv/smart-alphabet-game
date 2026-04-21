@@ -38,13 +38,56 @@ let timer;
 let correctItem = null;
 
 /* =======================
-   UNLOCK SPEECH (MOBILE FIX)
+   VOICE SYSTEM FIX
 ======================= */
-document.body.addEventListener("click", () => {
+
+let voicesReady = false;
+let voicesList = [];
+
+function loadVoices(){
+  voicesList = speechSynthesis.getVoices();
+  if(voicesList.length){
+    voicesReady = true;
+  }
+}
+
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+/* Unlock speech on first tap */
+document.addEventListener("click", function unlock(){
   let u = new SpeechSynthesisUtterance("ready");
+  u.volume = 0.1;
   speechSynthesis.speak(u);
   speechSynthesis.cancel();
-}, { once: true });
+}, { once:true });
+
+/* =======================
+   SPEECH FUNCTION (FIXED)
+======================= */
+function speakAFor(word){
+
+  speechSynthesis.cancel();
+
+  let letter = word[0].toUpperCase();
+  let text = `${letter} for ${word}`;
+
+  let speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "en-US";
+  speech.rate = 0.85;
+  speech.pitch = 1;
+
+  if(voicesReady){
+    let enVoice = voicesList.find(v => v.lang.includes("en"));
+    if(enVoice){
+      speech.voice = enVoice;
+    }
+  }
+
+  setTimeout(()=>{
+    speechSynthesis.speak(speech);
+  }, 400);
+}
 
 /* =======================
    LETTER SOUND
@@ -57,25 +100,6 @@ function playLetterSound(letter){
   }catch(e){
     console.log(e);
   }
-}
-
-/* =======================
-   SPEAK A FOR APPLE (FIXED)
-======================= */
-function speakAFor(word){
-  speechSynthesis.cancel(); // ⭐ IMPORTANT FIX
-
-  let letter = word[0].toUpperCase();
-  let text = `${letter} for ${word}`;
-
-  let speech = new SpeechSynthesisUtterance(text);
-  speech.lang = "en-US";
-  speech.rate = 0.9;
-  speech.pitch = 1;
-
-  setTimeout(()=>{
-    speechSynthesis.speak(speech);
-  }, 150);
 }
 
 /* =======================
@@ -181,8 +205,10 @@ function checkAnswer(el){
     score++;
     showCelebrate(el);
 
-    // ONLY ONE SOUND (FIXED)
-    speakAFor(correctItem.name);
+    // FIXED SPEECH (ONLY ONE SOUND)
+    setTimeout(()=>{
+      speakAFor(correctItem.name);
+    }, 300);
 
   }else{
     el.classList.add("wrong");
