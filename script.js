@@ -35,10 +35,19 @@ let wrong = 0;
 let time = 25;
 let timer;
 
-let correctItem = null; // ⭐ GLOBAL FIX
+let correctItem = null;
 
 /* =======================
-   SOUND (LETTER SOUND)
+   UNLOCK SPEECH (MOBILE FIX)
+======================= */
+document.body.addEventListener("click", () => {
+  let u = new SpeechSynthesisUtterance("ready");
+  speechSynthesis.speak(u);
+  speechSynthesis.cancel();
+}, { once: true });
+
+/* =======================
+   LETTER SOUND
 ======================= */
 function playLetterSound(letter){
   try{
@@ -51,9 +60,11 @@ function playLetterSound(letter){
 }
 
 /* =======================
-   SPEAK A FOR APPLE
+   SPEAK A FOR APPLE (FIXED)
 ======================= */
 function speakAFor(word){
+  speechSynthesis.cancel(); // ⭐ IMPORTANT FIX
+
   let letter = word[0].toUpperCase();
   let text = `${letter} for ${word}`;
 
@@ -62,7 +73,9 @@ function speakAFor(word){
   speech.rate = 0.9;
   speech.pitch = 1;
 
-  speechSynthesis.speak(speech);
+  setTimeout(()=>{
+    speechSynthesis.speak(speech);
+  }, 150);
 }
 
 /* =======================
@@ -109,7 +122,7 @@ function gameOver(){
 }
 
 /* =======================
-   LOAD QUESTION (A-Z ORDER)
+   LOAD QUESTION
 ======================= */
 function loadQuestion(){
 
@@ -168,10 +181,8 @@ function checkAnswer(el){
     score++;
     showCelebrate(el);
 
-    // 🔊 A for Apple voice
+    // ONLY ONE SOUND (FIXED)
     speakAFor(correctItem.name);
-
-
 
   }else{
     el.classList.add("wrong");
